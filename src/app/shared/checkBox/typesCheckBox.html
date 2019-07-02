@@ -1,0 +1,6 @@
+<ion-list>
+  <ion-item *ngFor="let type of dataManager.typeList">
+    <ion-label>{{type}}</ion-label>
+    <ion-checkbox slot="end" [(ngModel)]="dataManager.typeListCheckBox[type]" (ionFocus)="ionFocus(type)" (ionChange)="ionChange(type)"></ion-checkbox>
+  </ion-item>
+</ion-list>

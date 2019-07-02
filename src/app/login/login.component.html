@@ -1,0 +1,21 @@
+<form [formGroup]="loginForm" (submit)="onSubmit()" *ngIf="!login"> 
+
+    <ion-item>
+        <ion-label position="floating">Username</ion-label>
+        <ion-input type="text" formControlName="username" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+        <ion-label position="floating">Password</ion-label>
+        <ion-input type="text" formControlName="password" required></ion-input>
+    </ion-item>
+
+    <ion-button color="primary" expand="block" type="submit" [disabled]="!loginForm.valid">
+      Login
+    </ion-button>
+
+</form>
+
+<ion-button color="danger" expand="block" *ngIf="login" (click)="logout()">
+    Logout
+</ion-button>

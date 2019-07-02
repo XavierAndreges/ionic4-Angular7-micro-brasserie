@@ -1,0 +1,49 @@
+<ion-item *ngFor="let item of ingredients; index as i" id="{{ 'ingredient_' + i }}" lines="full" button="true" 
+(click)="itemTapped($event, item.nom, item.id, i)" style="text-align: center;">
+  
+  <ion-label>
+      
+      <h2>
+
+        <ion-text color="primary"><strong>{{item.nom}}</strong></ion-text>
+
+        <ion-text *ngIf="item.ebulition && item.ebulition.length > 1" style="font-size:13px; color: #3880ff; font-weight: bold;" > ({{ item.acide_alpha }} % / {{item.annee}})</ion-text>   
+
+        <ion-text color="medium"> : <strong>{{ utilsService.getQuantity(category, item) }}</strong></ion-text>
+
+      </h2>
+
+
+      <div style="white-space:normal">
+
+        <p>
+            {{ item.description }}     
+            <!--    
+            <ion-text *ngIf="item.description && item.commentaire"> / {{ item.commentaire }}</ion-text>                    
+            {{ item.commentaire }}
+            -->
+        </p>
+
+        <p>
+          <strong>
+            <ion-text color="warning">{{ utilsService.getConcatenateArray(item.caracteres, ', ') }}</ion-text>
+            <ion-text color="warning" *ngIf="item.caracteres && item.caracteres.length > 0 && item.saveurs && item.saveurs.length > 0"> / </ion-text>
+            <ion-text color="danger">{{ utilsService.getConcatenateArray(item.saveurs, ', ') }}</ion-text>
+          </strong>
+        </p>
+
+        <p>
+          <strong>
+            <ion-text color="success" *ngFor="let fonction of item.fonction; index as i">
+              {{ fonction }}
+              <span *ngIf="i < item.fonction.length - 1"> / </span>
+            </ion-text>
+          </strong>
+        </p>
+
+      </div>
+      
+  </ion-label>
+
+
+</ion-item>

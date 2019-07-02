@@ -1,0 +1,31 @@
+<ion-item *ngFor="let item of ingredients; index as i" 
+id="{{ 'ingredient_' + i }}"  (click)="itemTapped($event, item.nom, item.id, i)"
+lines="full" button="true" style="text-align: center;">
+  
+  <ion-label>
+                
+    <h2>
+      <ion-text color="primary"><strong>{{item.nom}}</strong></ion-text>
+      <span style="font-size:13px; color: #3880ff; font-weight: bold;"> ({{ item.style_de_biere }})</span>    
+      <ion-text color="secondary"><strong> / {{ getAverageDensity(item.brassin) }}° </strong></ion-text>
+      <ion-text color="warning"> / <strong>{{ getQuantity(item) }}</strong></ion-text>
+    </h2>
+    
+    <p>
+        <span *ngFor="let brassin of item.brassin;"> 
+          {{ brassin.volume_densite?.d_embouteillage}} 
+        </span>
+    </p>
+
+    <p>
+      <ion-text color="tertiary" style="white-space:pre-wrap">{{ item.description }}</ion-text>
+    </p>
+
+    <p>
+      <ion-text color="medium" style="white-space:pre-wrap">{{ item.commentaire }}</ion-text>
+    </p>
+
+  </ion-label>
+
+</ion-item>
+

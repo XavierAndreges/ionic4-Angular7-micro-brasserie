@@ -1,0 +1,30 @@
+<ion-item *ngFor="let item of ingredients; index as i" id="{{ 'ingredient_' + i }}" lines="full" button="true"
+(click)="itemTapped($event, item.nom, item.id, i)" style="text-align: center;">
+  
+    <ion-label>
+        
+        <h2>
+          <ion-text color="primary"><strong>{{item.nom}}</strong></ion-text>
+          <span style="font-size:13px; color: #3880ff; font-weight: bold;"> ({{ item.dosage_max }}% max / {{ item.ebc }} ebc)</span>    
+          <ion-text color="medium"> : <strong>{{ utilsService.getQuantity(category, item) }}</strong></ion-text>
+        </h2>
+
+
+        <div style="white-space:normal">
+
+          <p>
+              {{ item.description }}     
+          </p>
+
+          <p>
+            <strong>
+              <ion-text color="danger">{{ utilsService.getConcatenateArray(item.saveurs, ', ') }}</ion-text>
+            </strong>
+          </p>
+          
+        </div>
+        
+    </ion-label>
+
+
+</ion-item>

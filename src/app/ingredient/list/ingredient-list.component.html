@@ -1,0 +1,47 @@
+<ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title>
+        {{ title }}
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content padding>
+
+      <ion-refresher slot="fixed" (ionRefresh)="loadList($event)">
+        <ion-refresher-content></ion-refresher-content>
+      </ion-refresher>
+    
+      <ion-list>
+
+
+          <ion-list-header *ngIf="category == 'houblon'">
+
+              <ion-item>
+                <ion-label>Tous</ion-label>
+                <ion-toggle (ionChange)="ionChangeToggle($event)"></ion-toggle>
+              </ion-item>
+    
+          </ion-list-header>   
+     
+  
+          <div *ngIf="dataManager.ingredientQuantiteDict">
+    
+            <app-levure *ngIf="category == 'levure'" [category]="category" [ingredients]="ingredients"></app-levure>
+
+            <app-houblon *ngIf="category == 'houblon'" [category]="category" [ingredients]="ingredients"></app-houblon>
+
+            <app-malt *ngIf="category == 'malt'" [category]="category" [ingredients]="ingredients"></app-malt>
+
+            <app-flocon *ngIf="category == 'flocon'" [category]="category" [ingredients]="ingredients"></app-flocon>
+
+            <app-epice *ngIf="category == 'epice'" [category]="category" [ingredients]="ingredients"></app-epice>
+  
+          </div>
+  
+      </ion-list>
+  
+  </ion-content>

@@ -1,0 +1,22 @@
+<ion-item *ngFor="let item of ingredients; index as i" 
+id="{{ 'ingredient_' + i }}"  (click)="itemTapped($event, item.nom, item.id, i)"
+lines="full" button="true" style="text-align: center;">
+  
+  <ion-label>
+                
+    <h2>
+      <ion-text color="primary"><strong>{{item.nom}}</strong></ion-text>
+      <ion-text color="warning"> : <strong>{{ utilsService.getQuantity(category, item) }}</strong></ion-text>
+    </h2>
+
+    <p>
+      <ion-text color="tertiary" style="white-space:pre-wrap">{{ item.description }}</ion-text>
+    </p>
+
+    <p>
+      <ion-text color="medium" style="white-space:pre-wrap">{{ item.commentaire }}</ion-text>
+    </p>
+
+  </ion-label>
+
+</ion-item>

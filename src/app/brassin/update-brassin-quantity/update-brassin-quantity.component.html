@@ -1,0 +1,16 @@
+<ion-item *ngFor="let type of typeEmbouteillage; index as i" lines="full" button="false" style="text-align:center;">
+    
+  <ion-spinner name="crescent" id="brassin_detail_spinner_{{i}}" class="spinnerBrassinItem"></ion-spinner>
+
+  <ion-button size="large" (click)="setBrassinQuantity($event, brassin, i, type, -1)"> - </ion-button>       
+
+  <ion-label>
+      
+      <ion-text color="primary">
+        <h2>{{type}} cl : {{ brassin.embouteillage['nb' + type] }}</h2>
+      </ion-text>
+  </ion-label>
+
+  <ion-button size="large" (click)="setBrassinQuantity($event, brassin, i, type, 1)"> + </ion-button>
+
+</ion-item>

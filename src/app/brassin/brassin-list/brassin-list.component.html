@@ -1,0 +1,188 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      {{ title }}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-refresher slot="fixed" (ionRefresh)="loadBrassinsList($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-list>
+
+      <ion-list-header>
+
+          <ion-button color="{{ colorTypeSelected }}" shape="round" (click)="presentPopover($event)" size="small">
+            {{ typeSelected }}
+          </ion-button>
+
+          <ion-button *ngIf="nextCategory" id="sortHoublonAmerisantBtn" color="tertiary" shape="round" (click)="sortHoublons($event)" size="small">
+            <ion-icon name="leaf"></ion-icon>
+            <ion-badge *ngIf="getPastilles() > 0" color="danger">{{ getPastilles() }}</ion-badge>
+          </ion-button>
+
+          <ion-button *ngIf="nextCategory" id="sortLevureBtn" color="{{ colorLevureSelected }}" shape="round" (click)="sortLevures($event)" size="small">
+            <ion-icon name="bonfire"></ion-icon>
+          </ion-button>
+
+          <ion-button *ngIf="!nextCategory" id="reverseBtn" color="warning" shape="round" (click)="reverseBrassins($event)" size="small">
+            <ion-icon name="archive"></ion-icon>
+          </ion-button>
+
+          <ion-button *ngIf="!nextCategory" id="euroBtn" color="{{ dataManager.colorEuroBtn }}" shape="round" (click)="sortByVendable($event)" size="small">
+            <ion-icon name="logo-euro"></ion-icon>
+          </ion-button>
+
+          <ion-item *ngIf="!stockageCategory">
+            <ion-toggle (ionChange)="ionChangeToggleVolumeDensite($event)"></ion-toggle>
+          </ion-item>
+
+        </ion-list-header>   
+
+
+
+      <div *ngIf="stockageCategory">
+
+        <ion-item *ngFor="let brassin of brassins; index as i" id="{{ 'brassin_' + i }}" lines="full" button="true" (click)="itemTapped($event, brassin, i)" style="text-align: center;">
+
+            <ion-spinner name="crescent" id="brassins_list_spinner_{{i}}" class="spinnerBrassinItem"></ion-spinner>
+
+            <ion-button size="large" (click)="setBrassinQuantity($event, brassin, i, '33', -1)"> - </ion-button>       
+
+            <ion-label>
+                
+                <h2>
+                  <ion-text color="primary"><strong>{{brassin.lot}}</strong> : </ion-text>
+                  <span [style.color]="getTypeColorRef(brassin.type_biere.nom)">{{brassin.type_biere.nom}} </span>
+                  <ion-text color="dark">({{ brassin.embouteillage.volume | number:'1.0-0'}}L)</ion-text>
+                  <ion-text color="secondary"> - {{ brassin.date?.embouteillage | date:'dd/MM/yy'}}</ion-text>
+                  <ion-text *ngIf="brassin.vendable" color="medium"> - <strong>€</strong></ion-text>
+                </h2>
+                
+                <p>
+                    25cl : {{brassin.embouteillage.nb25}} | 
+                    <strong>33cl : {{brassin.embouteillage.nb33}}</strong> |
+                    66cl : {{brassin.embouteillage.nb66}}
+                </p>
+
+            </ion-label>
+
+            <ion-button size="large" (click)="setBrassinQuantity($event, brassin, i,'33', 1)"> + </ion-button>
+
+        </ion-item>
+
+    </div>
+
+
+
+    <div *ngIf="listCategory">
+
+        <ion-item *ngFor="let brassin of brassins; index as i" id="{{ 'brassin_' + i }}" lines="full" button="true" (click)="itemTapped($event, brassin, i)" style="text-align: center;">
+
+            <ion-label>              
+                
+                <h2>
+                  <ion-text color="primary"><strong>{{brassin.lot}}</strong> : </ion-text>
+                  <span [style.color]="getTypeColorRef(brassin.type_biere.nom)" style="text-transform:uppercase;">{{brassin.type_biere.nom}} </span>
+                  <span *ngIf="brassin.levure" color="dark" style="padding-left:15px;">
+                    {{brassin.levure?.nom}} 
+                  </span>
+                  <span *ngIf="brassin.alcool" style="padding-left:15px;">
+                    {{brassin.alcool}}%
+                  </span>
+                  <span *ngIf="brassin.ibu" style="padding-left:15px;">
+                   {{brassin.ibu}} ibu
+                  </span>
+                  <span *ngIf="brassin.vendable == '1'" style="padding-left:15px;">
+                    <ion-icon name="logo-euro"></ion-icon>
+                  </span>
+                  <span style="padding-left:15px;">
+                      <ion-icon ios="ios-beer" md="md-beer" *ngFor="let item of getTropDeMousseArray(brassin)"></ion-icon>
+                  </span>
+                </h2>
+                
+                <p>
+                  <strong>
+                    {{ getLabelHoublons(brassin) }}
+                </strong>
+                </p>
+
+                <p>
+                  <ion-text color="primary">
+                        {{ getLabelEmpatage(brassin.empatages) }} 
+                  </ion-text>
+                </p>
+                
+                
+
+                <p>
+                  <ion-text color="tertiary" *ngIf="isDetailsVolumeDensiteDisplay">
+                    {{ getLabelEpices(brassin) }}        
+                  </ion-text>
+                </p>
+
+                <p>
+                  <ion-text color="success" *ngIf="isDetailsVolumeDensiteDisplay">
+                      {{ brassin.date?.brassage | date:'dd/MM/yy'}} - MEB {{ brassin.date?.embouteillage | date:'dd/MM/yy'}}
+                  </ion-text>
+                </p>
+
+                <p *ngIf="brassin.volume_densite && isDetailsVolumeDensiteDisplay">
+                  {{ getLabelRendementDensite(brassin) }}
+                </p>
+
+            </ion-label>
+
+        </ion-item>
+
+    </div>
+
+
+
+
+    <div *ngIf="nextCategory">
+
+      <ion-item *ngFor="let brassin of brassins; index as i" id="{{ 'brassin_' + i }}" lines="full" button="true" (click)="itemTapped($event, brassin, i)" style="text-align: center;">
+
+          <ion-label>              
+              
+              <h2>
+                <ion-text color="primary"><strong>{{brassin.lot}}</strong> : </ion-text>
+                <span [style.color]="getTypeColorRef(brassin.type_biere.nom)" style="text-transform:uppercase;">{{brassin.type_biere.nom}} </span>
+                 <ion-text style="font-size:14px;">=> {{ getLabelHoublons(brassin) }}</ion-text>
+              </h2>
+
+              <p>
+                <ion-text *ngIf="isDetailsVolumeDensiteDisplay" color="primary">
+                  {{ getLabelEmpatage(brassin.empatages) }} 
+                </ion-text >
+              </p>
+
+              <p *ngIf="brassin.volume_densite && isDetailsVolumeDensiteDisplay">
+                {{ getLabelNext(brassin) }}
+              </p>
+
+              <p *ngIf="brassin.labelLevureDensite && isDetailsVolumeDensiteDisplay">
+                <ion-text color="secondary">
+                  {{ brassin.labelLevureDensite }}
+                </ion-text>
+              </p>
+
+          </ion-label>
+
+      </ion-item>
+
+  </div>
+
+
+  </ion-list>
+
+
+</ion-content>

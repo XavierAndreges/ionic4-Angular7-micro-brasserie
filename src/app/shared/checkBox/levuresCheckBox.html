@@ -1,0 +1,9 @@
+<ion-list>
+
+    <ion-item  *ngFor="let levure of dataManager.ingredientQuantiteDict['levure']">
+        <ion-label>{{levure.nom}}</ion-label>
+        <ion-checkbox slot="end" [checked]="checkIfLevuresIsChecked(levure.id)" (ionChange)="ionChange(levure)"></ion-checkbox>
+    </ion-item>
+
+</ion-list>
+

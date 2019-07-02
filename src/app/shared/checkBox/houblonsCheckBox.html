@@ -1,0 +1,37 @@
+<ion-list>
+
+  <!--
+  <ion-list-header>
+      <ion-button color="primary" (click)="validate($event)"  shape="round" size="small">Valider</ion-button>
+  </ion-list-header>
+-->
+
+  <ion-segment>
+    <ion-segment-button checked (ionSelect)="displayHoublonList($event, 'amerisant')"> 
+      <ion-label>Amerisant
+        <span *ngIf="getPastilles('amerisant') > 0" style="color:red; font-weight: bold; font-size:14px;">({{ getPastilles('amerisant') }})</span>
+      </ion-label>
+    </ion-segment-button>
+    <ion-segment-button (ionSelect)="displayHoublonList($event, 'aromatique')">
+      <ion-label>Aromatique 
+        <span *ngIf="getPastilles('aromatique') > 0" style="color:red; font-weight: bold; font-size:14px;">({{ getPastilles('aromatique') }})</span>
+      </ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <div id="houblonAmerisantList">
+    <ion-item  *ngFor="let houblon of dataManager.getHoublonsOnlyUsed()">
+        <ion-label>{{houblon.short_name}}</ion-label>
+        <ion-checkbox slot="end" [checked]="checkIfHoublonsIsChecked(houblon.id, 'amerisant')" (ionChange)="ionChange(houblon, 'amerisant')"></ion-checkbox>
+    </ion-item>
+  </div>
+
+  <div id="houblonAromatiqueList">
+    <ion-item *ngFor="let houblon of dataManager.getHoublonsOnlyUsed()">
+        <ion-label>{{houblon.short_name}}</ion-label>
+        <ion-checkbox slot="end" [checked]="checkIfHoublonsIsChecked(houblon.id, 'aromatique')" (ionChange)="ionChange(houblon, 'aromatique')"></ion-checkbox>
+    </ion-item>
+  </div>
+
+</ion-list>
+

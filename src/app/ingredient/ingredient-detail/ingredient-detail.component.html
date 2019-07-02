@@ -1,0 +1,57 @@
+<ion-header>
+
+    <ion-toolbar>
+
+        <ion-buttons slot="start">
+            <ion-button  class="back-custom-btn" (click)="launchBackAction()" style="display:none">
+                <ion-icon name="arrow-back"></ion-icon>		
+              </ion-button >
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+
+      <ion-title>
+        {{ title }}
+      </ion-title>
+
+      <ion-buttons slot="end">
+
+        <ion-button  (click)="prevOrNextPage('prev')">
+          <ion-icon name="arrow-round-down"></ion-icon>	
+        </ion-button >
+
+        <ion-button  (click)="prevOrNextPage('next')">	
+          <ion-icon name="arrow-round-up"></ion-icon>		
+        </ion-button >
+
+      </ion-buttons>
+
+    </ion-toolbar>
+
+  </ion-header>
+
+
+
+  <ion-content padding>
+
+      <ion-item text-end>
+          <ion-label>Editer</ion-label>
+          <ion-toggle (ionChange)="ionChangeToggleEditer($event)"></ion-toggle>
+      </ion-item>
+
+      <ion-item>
+          <ion-label position="stacked">Description</ion-label>
+          <ion-textarea (ionChange)="ionChangeTextArea($event, 'description')" color="tertiary" value="{{ item?.description }}" rows="3" [readonly]="inputReadOnly"></ion-textarea>
+        </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Commentaire</ion-label>
+        <ion-textarea (ionChange)="ionChangeTextArea($event, 'commentaire')" color="tertiary" value="{{ item?.commentaire }}" rows="3" [readonly]="inputReadOnly"></ion-textarea>
+      </ion-item>
+
+      <br><br>
+      <ion-img [src]="imageUrl"></ion-img>
+
+  </ion-content>
+
+
+
